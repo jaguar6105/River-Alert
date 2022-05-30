@@ -1,8 +1,9 @@
 const $noteContent = $(".output");
 
-// activeNote is used to keep track of the note in the textarea
-const id = 1;
-// A function for getting all notes from the db
+
+//test number = 01646500
+const id = '01646500';
+
 const getRiver = () => {
   console.log(id);
   return $.ajax({
@@ -11,7 +12,7 @@ const getRiver = () => {
   });
 };
 
-
+//renders the data into
 const renderRiverData = (river) => {
     let data = river;
     $(data).appendTo($noteContent);
@@ -25,7 +26,7 @@ const getAndRenderNotes = () => {
         url: url,
         data: {
         format: 'json',
-        sites: '01646500',
+        sites: id,
         siteStatus: 'all'},        
         success: function(data){
             renderRiverData(data);
