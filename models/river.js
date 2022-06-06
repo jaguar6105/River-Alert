@@ -6,11 +6,7 @@ module.exports = function(sequelize, DataTypes) {
         validate: {
           len: [1]
         }
-      },
-      river_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      }}, 
+      }},
       {freezeTableName: true}
 );  
   

@@ -35,7 +35,7 @@ app.get("/river/:id", function (req, res) {
 
 //returns the array data as a json file
 app.get("/db/river/:id", function (req, res) {
-    db.river.findAll({
+    db.station.findAll({
         where: {
             river_name: req.params.river_name,
         }
@@ -48,7 +48,7 @@ app.get("/db/river/:id", function (req, res) {
 //This is for loading rivers
 app.get("/db/river", function (req, res) {
  //   console.log("Test");
-    db.river.findAll({
+    db.station.findAll({
         }).then(function (response) {
         res.json(response);
     });

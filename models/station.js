@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
     const Station = sequelize.define("station", {
-        location: {
+        stationlocation: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -8,8 +8,8 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
-        riverId: {
-            type: DataTypes.INTEGER,
+        riverName: {
+            type: DataTypes.STRING,
             allowNull: false
         }
     }, 
