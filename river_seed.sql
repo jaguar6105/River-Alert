@@ -1,6 +1,7 @@
 USE riverAlertDB;
 
 CREATE TABLE riverStation (
+    riverId integer,
     stationId varchar(30),
     river varchar(50),
     stationLocation varchar(50)

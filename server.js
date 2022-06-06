@@ -2,6 +2,7 @@
 // =============================================================
 var express = require("express");
 var path = require("path");
+//const sql = require("mysql");
 
 // Sets up the Express App
 // =============================================================
@@ -13,8 +14,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 
+
+// Requiring our models for syncing
+var db = require("./models");
+
 const river = ["test"];
 const ids = [];
+
 
 
 // This is the home page
@@ -28,12 +34,29 @@ app.get("/river/:id", function (req, res) {
 });
 
 //returns the array data as a json file
-app.get("/api/river/:id", function (req, res) {
+app.get("/db/river/:id", function (req, res) {
+    db.river.findAll({
+        where: {
+            river_name: req.params.river_name,
+        }
+        }).then(function (response) {
+        res.json(response);
+    });
     return res.json(river);
 });
 
+//This is for loading rivers
+app.get("/db/river", function (req, res) {
+ //   console.log("Test");
+    db.river.findAll({
+        }).then(function (response) {
+        res.json(response);
+    });
 
-app.listen(PORT, function () {
-    console.log("App listening on PORT http://localhost:" + PORT);
 });
 
+db.sequelize.sync({ force: false }).then(function () {
+    app.listen(PORT, function () {
+        console.log("App listening on PORT http://localhost:" + PORT);
+    });
+});
