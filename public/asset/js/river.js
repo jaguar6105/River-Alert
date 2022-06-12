@@ -1,3 +1,4 @@
+
 const $noteContent = $(".output");
 
 
@@ -15,25 +16,37 @@ const getRiver = () => {
 //renders the data into
 const renderRiverData = (river) => {
     let data = river;
-    $(data).appendTo($noteContent);
+    console.log(river);
+    $("<span>"+data+"</span>").appendTo($noteContent);
 }
 
 // Gets river data from api and renders it
-const getAndRenderNotes = () => {
-    const url = 'http://waterservices.usgs.gov/nwis/dv/';
-    $.ajax({
-        type: 'GET', 
-        url: url,
-        data: {
-        format: 'json',
-        sites: id,
-        siteStatus: 'all'},        
-        success: function(data){
-            renderRiverData(data);
-      },
-    error: renderRiverData("API is unavailable.")
-    });
-    //return getRiver().then(renderRiverData);
-  };
+const getRiverData = (location) => {
 
-  getAndRenderNotes();
+  let client = "Dh7RPSpIbn5Nt8vCSnk5K";
+  let secret = "34hU5GqA4MmKEOzMynoYvL6qL2uFUNKVgQVadnFJ";
+
+  
+  let url = "https://api.aerisapi.com/rivers/" + location + "?client_id=" + client + "&client_secret="+ secret;
+    console.log(url);
+
+  $.ajax({
+    url: url
+ })
+ .done(function(json) {
+       if (json.success == true) {
+          let ob = json.response.ob;
+          if(!ob) {
+            ob =  "The data is unavailable. Try again later."; 
+          }
+//          console.log(ob);
+          renderRiverData(ob);
+       }
+       else {
+        let ob =  "The data is unavailable. Try again later."; 
+        renderRiverData(ob);
+       }
+   });
+  }
+
+  getRiverData("richmond,va");
