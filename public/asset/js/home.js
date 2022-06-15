@@ -17,12 +17,12 @@ $(document).ready(function () {
 
 
 
-const renderRiversData = (input) => {
+const renderRiversData = (input, location) => {
   if (input){
   let search = input.id;
   let card = '<div class="card" id="card" style="width: 18rem;">'
   let body = '<div class="card-body" id="card-body">';
-  let button = ' <a href="/river/'+search+'" id="clickriver" data-river='+ search + 'class="btn btn-primary">';
+  let button = ' <a href="/river/'+location+'" id="clickriver" data-river='+ search + 'class="btn btn-primary">';
   let title = ' <h5 class="card-title">'+search+'</h5>'
 //  button.text() = text+ ", " + state;
   $("#holder").append(card);
@@ -54,7 +54,7 @@ const getRiverData =  (text, state) => {
        if (json.success == true) {
           let ob = json.response[0];
 //          console.log(ob);
-          renderRiversData(ob);
+          renderRiversData(ob, search);
        }
        else {
         renderRiversData(undefined);

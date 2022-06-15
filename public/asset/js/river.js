@@ -42,4 +42,10 @@ const getRiverData = (location) => {
    });
   }
 
-  getRiverData("richmond,va");
+  const getLocation = () => {
+    let array = window.location.pathname.split("/");
+      console.log(array);
+      getRiverData(array[2]);
+}
+
+  getLocation();
