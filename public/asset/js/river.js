@@ -8,8 +8,9 @@ const $noteContent = $(".output");
 //renders the data into
 const renderRiverData = (river) => {
     let data = river;
-    console.log(river);
-    $("<span>"+data.id+"</span>").appendTo($noteContent);
+    console.log(data);
+    $("#river-name").text(data.profile.waterbody);
+    $("<span>"+data.ob.heightFT+"ft</span>").appendTo($noteContent);
 }
 
 // Gets river data from api and renders it
@@ -28,7 +29,6 @@ const getRiverData = (location) => {
  .done(function(json) {
        if (json.success == true) {
           let ob = json.response[0];
-          console.log(json.response[0]);
           if(!ob) {
             ob =  "The data is unavailable. Try again later."; 
           }
