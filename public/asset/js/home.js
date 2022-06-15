@@ -18,6 +18,7 @@ $(document).ready(function () {
 
 
 const renderRiversData = (input) => {
+  if (input){
   let search = input.id;
   let card = '<div class="card" id="card" style="width: 18rem;">'
   let body = '<div class="card-body" id="card-body">';
@@ -28,6 +29,10 @@ const renderRiversData = (input) => {
   $("#card").append(body);
   $("#card-body").append(button);
   $("#clickriver").append(title);
+}
+else {
+  $("#holder").append('<div id="card" style="width: 18rem;">The location you are looking for is invalid.  Try something else.</div>');
+}
 
 }
 
@@ -48,15 +53,11 @@ const getRiverData =  (text, state) => {
  .done(function(json) {
        if (json.success == true) {
           let ob = json.response[0];
-          if(!ob) {
-            ob =  "The data is unavailable. Try again later."; 
-          }
 //          console.log(ob);
           renderRiversData(ob);
        }
        else {
-        let ob =  "The data is unavailable. Try again later."; 
-        renderRiversData(ob);
+        renderRiversData(undefined);
        }
    });
   }
