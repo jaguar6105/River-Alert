@@ -2,22 +2,14 @@
 const $noteContent = $(".output");
 
 
-//test number = 01646500
-const id = '01646500';
 
-const getRiver = () => {
-  console.log(id);
-  return $.ajax({
-    url: "/api/river/"+id,
-    method: "GET",
-  });
-};
+
 
 //renders the data into
 const renderRiverData = (river) => {
     let data = river;
     console.log(river);
-    $("<span>"+data+"</span>").appendTo($noteContent);
+    $("<span>"+data.id+"</span>").appendTo($noteContent);
 }
 
 // Gets river data from api and renders it
@@ -27,7 +19,7 @@ const getRiverData = (location) => {
   let secret = "34hU5GqA4MmKEOzMynoYvL6qL2uFUNKVgQVadnFJ";
 
   
-  let url = "https://api.aerisapi.com/rivers/" + location + "?client_id=" + client + "&client_secret="+ secret;
+  let url = "https://api.aerisapi.com/rivers/" + location + "?format=json&client_id=" + client + "&client_secret="+ secret;
     console.log(url);
 
   $.ajax({
@@ -35,7 +27,8 @@ const getRiverData = (location) => {
  })
  .done(function(json) {
        if (json.success == true) {
-          let ob = json.response.ob;
+          let ob = json.response[0];
+          console.log(json.response[0]);
           if(!ob) {
             ob =  "The data is unavailable. Try again later."; 
           }
