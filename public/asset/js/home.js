@@ -1,3 +1,4 @@
+//const { format } = require("mysql2");
 
 
 $(document).ready(function () {
@@ -19,16 +20,18 @@ $(document).ready(function () {
 
 const renderRiversData = (input, location) => {
   if (input){
-  let search = input.id;
-  let card = '<div class="card" id="card" style="width: 18rem;">'
-  let body = '<div class="card-body" id="card-body">';
-  let button = ' <a href="/river/'+location+'" id="clickriver" data-river='+ search + 'class="btn btn-primary">';
-  let title = ' <h5 class="card-title">'+search+'</h5>'
+    for(let i=0; i<input.length;i++){
+  let search = input[i].id;
+  let card = '<div class="card" id="card'+search+'" style="width: 18rem;">'
+  let body = '<div class="card-body" id="card-body'+search+'">';
+  let button = ' <a href="/river/'+location+'" id="clickriver"'+search+' data-river='+ search + ' class="btn btn-primary">'+search+'</a>';
+ // let title = ' <h5 class="card-title">'+search+'</h5>'
 //  button.text() = text+ ", " + state;
   $("#holder").append(card);
-  $("#card").append(body);
-  $("#card-body").append(button);
-  $("#clickriver").append(title);
+  $("#card"+search).append(body);
+  $("#card-body"+search).append(button);
+  $("#clickriver"+search).append(title);
+   }
 }
 else {
   $("#holder").append('<div id="card" style="width: 18rem;">The location you are looking for is invalid.  Try something else.</div>');
@@ -44,7 +47,7 @@ const getRiverData =  (text, state) => {
   let secret = "34hU5GqA4MmKEOzMynoYvL6qL2uFUNKVgQVadnFJ";
 
   
-  let url = "https://api.aerisapi.com/rivers/" + search + "?format=json&client_id=" + client + "&client_secret="+ secret;
+  let url = "https://api.aerisapi.com/rivers/closest?p=" + search + "&format=json&radius=25mi&limit=10&client_id=" + client + "&client_secret="+ secret;
     console.log(url);
 
   $.ajax({
@@ -52,7 +55,7 @@ const getRiverData =  (text, state) => {
  })
  .done(function(json) {
        if (json.success == true) {
-          let ob = json.response[0];
+          let ob = json.response;
 //          console.log(ob);
           renderRiversData(ob, search);
        }
