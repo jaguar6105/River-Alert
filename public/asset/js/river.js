@@ -28,7 +28,8 @@ const getRiverData = (location) => {
  })
  .done(function(json) {
        if (json.success == true) {
-          let ob = json.response[0];
+          let ob = json.response;
+          console.log(json);
           if(!ob) {
             ob =  "The data is unavailable. Try again later."; 
           }
@@ -36,7 +37,7 @@ const getRiverData = (location) => {
           renderRiverData(ob);
        }
        else {
-        let ob =  "The data is unavailable. Try again later."; 
+        let ob =  undefined; 
         renderRiverData(ob);
        }
    });
@@ -44,7 +45,7 @@ const getRiverData = (location) => {
 
   const getLocation = () => {
     let array = window.location.pathname.split("/");
-      console.log(array);
+      console.log(array[2]);
       getRiverData(array[2]);
 }
 
