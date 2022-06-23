@@ -7,10 +7,18 @@ const $noteContent = $(".output");
 
 //renders the data into
 const renderRiverData = (river) => {
-    let data = river;
-    console.log(data);
-    $("#river-name").text(data.profile.waterbody);
-    $("<span>"+data.ob.heightFT+"ft</span>").appendTo($noteContent);
+    let data;
+    if(river==undefined) {
+      data =  "The data is unavailable. Try again later."; 
+      $("#river-name").text(data);
+    }
+    else {
+      console.log(river);
+      data = river.profile.waterbody;
+      $("#river-name").text(data);
+    $("<span>"+river.ob.heightFT+"ft</span>").appendTo($noteContent);
+    }
+
 }
 
 // Gets river data from api and renders it
