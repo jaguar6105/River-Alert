@@ -21,10 +21,15 @@ $(document).ready(function () {
 const renderRiversData = (input, location) => {
   if (input){
     for(let i=0; i<input.length; i++){
+      let flooded = 'notFlooded';
+      let status = input[i].ob.status;
+      if(status == 'action'||status == 'minor') {
+        flooded = 'flooded';
+      }
   let search = input[i].id;
   let place = input[i].profile.waterbody + " " + input[i].place.name;
   let card = '<div class="card" id="card'+search+'" style="width: 18rem;">'
-  let body = '<div class="card-body" id="card-body'+search+'">';
+  let body = '<div class="card-body ' + flooded + '" id="card-body'+search+'">';
   let button = ' <a href="/river/'+search+'" id="clickriver"'+search+' data-river='+ search + ' class="btn btn-primary">'+place+'</a>';
  // let title = ' <h5 class="card-title">'+search+'</h5>'
 //  button.text() = text+ ", " + state;
