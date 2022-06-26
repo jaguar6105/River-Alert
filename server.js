@@ -1,5 +1,6 @@
 // Dependencies
 // =============================================================
+const { response } = require("express");
 var express = require("express");
 var path = require("path");
 //const sql = require("mysql");
@@ -37,6 +38,25 @@ app.get("/river/:id", function (req, res) {
 app.get("/login", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/login.html"));
 });
+
+//checks for login information
+app.get("/login/:username/:password", function (req, res) {
+
+    db.userAccount.findAll({
+        where: {
+            username: req.params.username
+        }
+    }).then(function (response) {
+        let result = "failure";
+        if(response[0]) {
+        if(response[0].userpassword == req.params.password){
+            result = "success";
+        }
+    }
+        res.json(result);
+    });
+});
+
 
 //returns the array data as a json file
 app.get("/db/river/:id", function (req, res) {
