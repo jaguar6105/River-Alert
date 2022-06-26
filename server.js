@@ -33,6 +33,11 @@ app.get("/river/:id", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/river.html"));
 });
 
+//serve the file login.html
+app.get("/login", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/login.html"));
+});
+
 //returns the array data as a json file
 app.get("/db/river/:id", function (req, res) {
     db.station.findAll({
