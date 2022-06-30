@@ -9,7 +9,7 @@ const checkLogin = (username, password) => {
 
     $.get("/login/"+username+"/"+password).then(function (res) {
     if(res == "success") {
-        document.cookie = "username=" + username;
+        document.cookie = "username=" + username +";";
         location.assign('/');
     }
     else {
