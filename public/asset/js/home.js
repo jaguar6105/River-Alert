@@ -12,7 +12,7 @@ $(document).ready(function () {
       $.get('/db/follow/' + userCookie, (result) => {
         console.log(userCookie);
         console.log(result);
-        favorites=result
+        favorites = result
         /*for (let i = 0; i < result.length; i++) {
           favorites.push(result[i]);
         }*/
@@ -31,30 +31,42 @@ $(document).ready(function () {
       riverId: evt.currentTarget.dataset.river
     };
 
+    if (evt.currentTarget.dataset.follow == "unfollow") {
+      follow(search);
+    }
+    else if (evt.currentTarget.dataset.follow == "followed") {
+      unfollow(search);
+    }
+  }
+
+  //follow db call
+  const follow = (search) => {
     $.post("/db/follow", search)
-    .then( () => {
-      console.log("Followed");
-      getFollows();
-  });
+      .then(() => {
+        console.log("Followed");
+        $("#" + search.riverId).text("Unfollow");
+        $("#" + search.riverId).attr('data-follow', "followed");
+        getFollows();
+      });
   }
 
 
   //unfollow a station
-  const unfollowClick = (evt) => {
-    console.log("Unfollowed");
-    let userCookie = getCookie('username');
-    let search = {
-      username: userCookie,
-      riverId: evt.currentTarget.dataset.river
-    };
+  const unfollow = (search) => {
     $.ajax({
-      url:"/db/follow/"+search.username+"/"+search.riverId,
+      url: "/db/follow/" + search.username + "/" + search.riverId,
       type: 'DELETE',
-      success: function(result) {
-         console.log("Delete");
-         getFollows();
+      success: function (result) {
+        console.log("Delete");
+        $("#" + search.riverId).text("Follow");
+        $("#" + search.riverId).attr('data-follow', "unfollow");
+        getFollows();
       }
-  });
+    });
+  }
+
+  const renderCard = () => {
+
   }
 
 
@@ -71,14 +83,14 @@ $(document).ready(function () {
         let card = '<div class="card" id="card' + search + '" style="width: 18rem;">'
         let body = '<div class="card-body ' + flooded + '" id="card-body' + search + '">';
         let button = ' <a href="/river/' + search + '" id="clickriver"' + search + ' data-river=' + search + ' class="btn btn-primary">' + place + '</a>';
-        let followButton = '<button class=followButton data-river=' + search + ' data-follow=unfollow>Follow</button>'
+        let followButton = '<button id=' + search + ' class=followButton data-river=' + search + ' data-follow=unfollow>Follow</button>'
         // let title = ' <h5 class="card-title">'+search+'</h5>'
         //  button.text() = text+ ", " + state;
         let fButtonId = "Follow";
         for (let j = 0; j < favorites.length; j++) {
           if (search == favorites[j].riverId) {
             fButtonId = "Followed";
-            followButton = '<button class=followButton data-river=' + search + ' data-follow=followed>Unfollow</button>';
+            followButton = '<button id=' + search + ' class=followButton data-river=' + search + ' data-follow=followed>Unfollow</button>';
           }
         }
         $("#holder").append(card);
