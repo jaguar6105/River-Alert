@@ -4,13 +4,14 @@
 $(document).ready(function () {
 
   let favorites = [];
+  let userCookie;
 
 
   const getFollows = () => {
-    let username = getCookie('username');
-    if (username) {
-      $.get('/db/follow/' + username, (result) => {
-        console.log(username);
+    let userCookie = getCookie('username');
+    if (userCookie) {
+      $.get('/db/follow/' + userCookie, (result) => {
+        console.log(userCookie);
         console.log(result);
         for (let i = 0; i < result.length; i++) {
           favorites.push(result[i]);
@@ -18,6 +19,26 @@ $(document).ready(function () {
       });
     }
   };
+
+
+  //follow a station
+  const followClick = () => {
+    console.log("Followed")
+    let search = {
+      username: userCookie,
+      riverId: "RICV2"
+    };
+  }
+
+
+  //unfollw a station
+  const unfollowClick = () => {
+    console.log("Unfollowed")
+    let search = {
+      username: userCookie,
+      riverId: "RICV2"
+    };
+  }
 
 
   const renderRiversData = (input, location) => {
@@ -33,21 +54,33 @@ $(document).ready(function () {
         let card = '<div class="card" id="card' + search + '" style="width: 18rem;">'
         let body = '<div class="card-body ' + flooded + '" id="card-body' + search + '">';
         let button = ' <a href="/river/' + search + '" id="clickriver"' + search + ' data-river=' + search + ' class="btn btn-primary">' + place + '</a>';
-        let followButton = '<button data-river=' + search + ' data-follow=unfollow>Follow</button>'
+        let followButton = '<button class=followButton data-river=' + search + ' data-follow=unfollow>Follow</button>'
         // let title = ' <h5 class="card-title">'+search+'</h5>'
         //  button.text() = text+ ", " + state;
         let fButtonId = "Follow";
         for (let j = 0; j < favorites.length; j++) {
           if (search == favorites[j].riverId) {
             fButtonId = "Followed";
-            followButton = '<button data-river=' + search + ' data-follow=followed>Unfollow</button>';
+            followButton = '<button class=followButton data-river=' + search + ' data-follow=followed>Unfollow</button>';
           }
         }
         $("#holder").append(card);
         $("#card" + search).append(body);
         $("#card-body" + search).append(button);
         $("#card-body" + search).append(followButton);
+
         // $("#clickriver"+search).append(title);
+      }
+      let fBut = document.getElementsByClassName("followButton");
+      console.log(fBut);
+      for(let k=0; k<fBut.length; k++) {
+        console.log(fBut[k].dataset.follow);
+        if(fBut[k].dataset.follow=="unfollow"){
+      fBut[k].addEventListener("click", followClick);
+        }
+        else if(fBut[k].dataset.follow=="followed") {
+          fBut[k].addEventListener("click", unfollowClick);
+        }
       }
     }
     else {
