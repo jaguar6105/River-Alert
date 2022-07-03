@@ -58,27 +58,42 @@ app.get("/login/:username/:password", function (req, res) {
 });
 
 
-//returns the array data as a json file
-app.get("/db/river/:id", function (req, res) {
-    db.station.findAll({
+
+
+
+//This is for getting follows
+app.get("/db/follow/:username", function (req, res) {
+    //   console.log("Test");
+       db.follow.findAll({
         where: {
-            river_name: req.params.river_name,
+            username: req.params.username
         }
-        }).then(function (response) {
+           }).then(function (response) {
+           res.json(response);
+       });
+   
+   });
+
+   //delete follow from db
+   app.delete("/db/follow/:username/:river", function (req, res) {
+    db.follow.destroy({
+        where: {
+            username: req.params.username,
+            riverId: req.params.river
+        }
+    }).then(function (response) {
         res.json(response);
     });
-    return res.json(river);
 });
 
-//This is for loading rivers
-app.get("/db/river", function (req, res) {
- //   console.log("Test");
-    db.station.findAll({
-        }).then(function (response) {
+// Add a follow to db
+app.post("/db/follow", function (req, res) {
+    db.follow.create(req.body).then(function (response) {
         res.json(response);
     });
-
 });
+
+   
 
 db.sequelize.sync({ force: false }).then(function () {
     app.listen(PORT, function () {

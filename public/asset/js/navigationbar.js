@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 
     const checkLogin = () => {
-        console.log(getCookie("username"));
+        //console.log(getCookie("username"));
         let username = getCookie("username");
         if(username != "") {
             changeLoginDisplay(username)
