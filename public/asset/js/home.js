@@ -38,7 +38,7 @@ $(document).ready(function () {
         //  button.text() = text+ ", " + state;
         let fButtonId = "Follow";
         for (let j = 0; j < favorites.length; j++) {
-          if (search == favorites[j]) {
+          if (search == favorites[j].riverId) {
             fButtonId = "Followed";
             followButton = '<button data-river=' + search + ' data-follow=followed>Unfollow</button>';
           }
