@@ -104,12 +104,7 @@ $(document).ready(function () {
       console.log(fBut);
       for (let k = 0; k < fBut.length; k++) {
         //console.log(fBut[k].dataset.follow);
-        if (fBut[k].dataset.follow == "unfollow") {
           fBut[k].addEventListener("click", followClick);
-        }
-        else if (fBut[k].dataset.follow == "followed") {
-          fBut[k].addEventListener("click", unfollowClick);
-        }
       }
     }
     else {
@@ -143,6 +138,34 @@ $(document).ready(function () {
         }
       });
   }
+
+  // Gets river data from api and renders it
+  const getRiverDataById = (text) => {
+    let search = text;
+
+    let client = "Dh7RPSpIbn5Nt8vCSnk5K";
+    let secret = "34hU5GqA4MmKEOzMynoYvL6qL2uFUNKVgQVadnFJ";
+
+
+    let url = "https://api.aerisapi.com/rivers/?p=" + search + "&format=json&radius=25mi&limit=10&client_id=" + client + "&client_secret=" + secret;
+    console.log(url);
+
+    $.ajax({
+      url: url
+    })
+      .done(function (json) {
+        if (json.success == true) {
+          let ob = json.response;
+          //          console.log(ob);
+          renderRiversData(ob, search);
+        }
+        else {
+          renderRiversData(undefined);
+        }
+      });
+  }
+
+
 
   $("#state").change(function () {
     id = $(this).children(":selected").attr("value");
