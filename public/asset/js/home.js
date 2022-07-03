@@ -4,7 +4,6 @@
 $(document).ready(function () {
 
   let favorites = [];
-  let userCookie;
 
 
   const getFollows = () => {
@@ -13,31 +12,49 @@ $(document).ready(function () {
       $.get('/db/follow/' + userCookie, (result) => {
         console.log(userCookie);
         console.log(result);
-        for (let i = 0; i < result.length; i++) {
+        favorites=result
+        /*for (let i = 0; i < result.length; i++) {
           favorites.push(result[i]);
-        }
+        }*/
       });
     }
   };
 
 
   //follow a station
-  const followClick = () => {
-    console.log("Followed")
+  const followClick = (evt) => {
+    let userCookie = getCookie('username');
+    console.log("Followed");
+    //console.log(evt.currentTarget.dataset.river);
     let search = {
       username: userCookie,
-      riverId: "RICV2"
+      riverId: evt.currentTarget.dataset.river
     };
+
+    $.post("/db/follow", search)
+    .then( () => {
+      console.log("Followed");
+      getFollows();
+  });
   }
 
 
-  //unfollw a station
-  const unfollowClick = () => {
-    console.log("Unfollowed")
+  //unfollow a station
+  const unfollowClick = (evt) => {
+    console.log("Unfollowed");
+    let userCookie = getCookie('username');
     let search = {
       username: userCookie,
-      riverId: "RICV2"
+      riverId: evt.currentTarget.dataset.river
     };
+    $.ajax({
+      url:"/db/follow/"+search.username+"/"+search.riverId,
+      type: 'DELETE',
+      success: function(result) {
+         console.log("Delete");
+         getFollows();
+      }
+  });
   }
 
 
@@ -73,12 +90,12 @@ $(document).ready(function () {
       }
       let fBut = document.getElementsByClassName("followButton");
       console.log(fBut);
-      for(let k=0; k<fBut.length; k++) {
-        console.log(fBut[k].dataset.follow);
-        if(fBut[k].dataset.follow=="unfollow"){
-      fBut[k].addEventListener("click", followClick);
+      for (let k = 0; k < fBut.length; k++) {
+        //console.log(fBut[k].dataset.follow);
+        if (fBut[k].dataset.follow == "unfollow") {
+          fBut[k].addEventListener("click", followClick);
         }
-        else if(fBut[k].dataset.follow=="followed") {
+        else if (fBut[k].dataset.follow == "followed") {
           fBut[k].addEventListener("click", unfollowClick);
         }
       }
