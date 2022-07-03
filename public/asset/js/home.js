@@ -3,19 +3,21 @@
 
 $(document).ready(function () {
 
-  let id = "pa";
-  //get favs
+  let favorites = [];
 
-  // Gets river data from api and renders it
-  const getRivers = () => {
-    $.get("/db/river", renderData);
+
+  const getFollows = () => {
+    let username = getCookie('username');
+    if (username) {
+      $.get('/db/follow/' + username, (result) => {
+        console.log(username);
+        console.log(result);
+        for (let i = 0; i < result.length; i++) {
+          favorites.push(result[i]);
+        }
+      });
+    }
   };
-
-  //will render individual stations
-  const renderData = (data) => {
-    console.log(data);
-  };
-
 
 
   const renderRiversData = (input, location) => {
@@ -31,11 +33,20 @@ $(document).ready(function () {
         let card = '<div class="card" id="card' + search + '" style="width: 18rem;">'
         let body = '<div class="card-body ' + flooded + '" id="card-body' + search + '">';
         let button = ' <a href="/river/' + search + '" id="clickriver"' + search + ' data-river=' + search + ' class="btn btn-primary">' + place + '</a>';
+        let followButton = '<button data-river=' + search + ' data-follow=unfollow>Follow</button>'
         // let title = ' <h5 class="card-title">'+search+'</h5>'
         //  button.text() = text+ ", " + state;
+        let fButtonId = "Follow";
+        for (let j = 0; j < favorites.length; j++) {
+          if (search == favorites[j]) {
+            fButtonId = "Followed";
+            followButton = '<button data-river=' + search + ' data-follow=followed>Unfollow</button>';
+          }
+        }
         $("#holder").append(card);
         $("#card" + search).append(body);
         $("#card-body" + search).append(button);
+        $("#card-body" + search).append(followButton);
         // $("#clickriver"+search).append(title);
       }
     }
@@ -80,10 +91,23 @@ $(document).ready(function () {
     let text = document.getElementById("rivername").value;;
     getRiverData(text, id);
   });
+
+  //get cookie value
+  const getCookie = (cname) => {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  getFollows();
 });
-
-const getRiverData = (lat, long) => {
-  let location;
-
-  return location;
-}
