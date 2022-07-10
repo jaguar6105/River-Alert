@@ -64,7 +64,21 @@ app.get("/login/:username/:password", function (req, res) {
     });
 });
 
+//checks for login information
+app.get("/user/:username", function (req, res) {
 
+    db.userAccount.findAll({
+        where: {
+            username: req.params.username
+        }
+    }).then(function (response) {
+        let result = "failure";
+        if(response.length == 0) {
+            result = "pass";
+    }
+        res.json(result);
+    });
+});
 
 
 

@@ -1,5 +1,6 @@
 const form = document.getElementById('form');
 const cancelButton = document.getElementById('cancelbtn');
+const formContain = document.getElementById('inputContain');
 
 
 // create database call
@@ -12,8 +13,8 @@ const createUser = (username, password, email) => {
         email: email
     }
 
-    $.post("/db/user").then(function (res) {
-        console.log(res);
+    $.post("/db/user", user).then(function (res) {
+        $("#inputContain").empty();
     });
 
   }
@@ -26,12 +27,25 @@ const cancelClick = (event) => {
 }
 
 
+
 const createClick = (event) => {
     event.preventDefault();
     let username = document.getElementById("username").value;
     let password = document.getElementById("psword").value;
+    let password2 = document.getElementById("psword2").value;
     let email = document.getElementById("email").value;
-    createUser(username, password, email);
+    if (password != password2) {
+        console.log("passwords must be matching.")
+    } else {
+        $.get("/user/"+username).then(function (res) {
+            if(res == "pass") {
+                createUser(username, password, email);
+            }
+            else {
+                console.log(res);
+            }
+            });
+    }
 }
 
 
