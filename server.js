@@ -44,6 +44,12 @@ app.get("/newUser", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/createUser.html"));
 });
 
+//serve the file rivers.html
+app.get("/auth/:id", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/auth.html"));
+});
+
+
 //checks for login information
 app.get("/login/:username/:password", function (req, res) {
 
@@ -131,6 +137,19 @@ app.post("/db/user", function (req, res) {
     }
     db.userAccount.create(user).then(function (response) {
         res.json(response);
+    });
+});
+
+// authorize user route
+app.post("/db/:code", function (req, res) {
+    db.userAccount.update({
+        accountStatus: "Active"},
+        {where: {
+            confirmationCode: req.params.code
+        }
+    }).then(function (response) {
+        console.log(response);
+        res.json(response[0]);
     });
 });
 
