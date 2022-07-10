@@ -55,7 +55,9 @@ app.get("/login/:username/:password", function (req, res) {
         let result = "failure";
         if(response[0]) {
         if(response[0].userpassword == req.params.password){
+            if(response[0].confirmed) {
             result = "success";
+            }
         }
     }
         res.json(result);
@@ -94,6 +96,13 @@ app.get("/db/follow/:username", function (req, res) {
 // Add a follow to db
 app.post("/db/follow", function (req, res) {
     db.follow.create(req.body).then(function (response) {
+        res.json(response);
+    });
+});
+
+// Add a user to db
+app.post("/db/user", function (req, res) {
+    db.userAccount.create(req.body).then(function (response) {
         res.json(response);
     });
 });
