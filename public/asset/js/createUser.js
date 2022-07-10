@@ -9,7 +9,7 @@ const createUser = (username, password, email) => {
     let user = {
         username: username,
         userpassword: password,
-        confirmed: 0,
+        accountStatus: "Pending",
         email: email
     }
 
