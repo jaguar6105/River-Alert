@@ -39,6 +39,17 @@ app.get("/login", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/login.html"));
 });
 
+//serve the file login.html
+app.get("/newUser", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/createUser.html"));
+});
+
+//serve the file rivers.html
+app.get("/auth/:id", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/auth.html"));
+});
+
+
 //checks for login information
 app.get("/login/:username/:password", function (req, res) {
 
@@ -48,34 +59,50 @@ app.get("/login/:username/:password", function (req, res) {
         }
     }).then(function (response) {
         let result = "failure";
-        if(response[0]) {
-        if(response[0].userpassword == req.params.password){
-            result = "success";
+        if (response[0]) {
+            if (response[0].userpassword == req.params.password) {
+                if (response[0].accountStatus == "Active") {
+                    result = "success";
+                }
+            }
         }
-    }
+        res.json(result);
+    });
+});
+
+//checks for login information
+app.get("/user/:username", function (req, res) {
+
+    db.userAccount.findAll({
+        where: {
+            username: req.params.username
+        }
+    }).then(function (response) {
+        let result = "failure";
+        if (response.length == 0) {
+            result = "pass";
+        }
         res.json(result);
     });
 });
 
 
 
-
-
 //This is for getting follows
 app.get("/db/follow/:username", function (req, res) {
     //   console.log("Test");
-       db.follow.findAll({
+    db.follow.findAll({
         where: {
             username: req.params.username
         }
-           }).then(function (response) {
-           res.json(response);
-       });
-   
-   });
+    }).then(function (response) {
+        res.json(response);
+    });
 
-   //delete follow from db
-   app.delete("/db/follow/:username/:river", function (req, res) {
+});
+
+//delete follow from db
+app.delete("/db/follow/:username/:river", function (req, res) {
     db.follow.destroy({
         where: {
             username: req.params.username,
@@ -93,7 +120,40 @@ app.post("/db/follow", function (req, res) {
     });
 });
 
-   
+// Add a user to db
+app.post("/db/user", function (req, res) {
+    const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let token = '';
+    for (let i = 0; i < 25; i++) {
+        token += characters[Math.floor(Math.random() * characters.length)];
+    }
+
+    let user = {
+        username: req.body.username,
+        userpassword: req.body.userpassword,
+        accountStatus: "Pending",
+        confirmationCode: token,
+        email: req.body.email
+    }
+    db.userAccount.create(user).then(function (response) {
+        res.json(response);
+    });
+});
+
+// authorize user route
+app.post("/db/:code", function (req, res) {
+    db.userAccount.update({
+        accountStatus: "Active"},
+        {where: {
+            confirmationCode: req.params.code
+        }
+    }).then(function (response) {
+        console.log(response);
+        res.json(response[0]);
+    });
+});
+
+
 
 db.sequelize.sync({ force: false }).then(function () {
     app.listen(PORT, function () {

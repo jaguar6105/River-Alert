@@ -12,8 +12,13 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false
       },
-      confirmed: {
-        type: DataTypes.BOOLEAN,
+      accountStatus: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      confirmationCode: {
+        type: DataTypes.STRING,
+        unique: true,
         allowNull: false
       },
       email: {
