@@ -32,8 +32,8 @@ const renderRiverData = (river) => {
 // Gets river data from api and renders it
 const getRiverData = (location) => {
 
-  let client = "Dh7RPSpIbn5Nt8vCSnk5K";
-  let secret = "34hU5GqA4MmKEOzMynoYvL6qL2uFUNKVgQVadnFJ";
+  let client = "qIoVTRHTK046FZUZWzzWE";
+  let secret = "2Vei2BNzwGMltl4KjQ8RrvgwKSdmLofRQQgJwC42";
 
 
   let url = "https://api.aerisapi.com/rivers/" + location + "?format=json&client_id=" + client + "&client_secret=" + secret;
