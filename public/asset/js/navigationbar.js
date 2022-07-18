@@ -46,6 +46,7 @@ $(document).ready(function () {
             console.log("Cookie Removed");
             $("#login_container").empty();
             let login = '<a href="/login" }>login</a>';
+            $("#holder").empty();
             $("#login_container").append(login);
         });
 
