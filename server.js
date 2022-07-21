@@ -44,6 +44,12 @@ app.get("/newUser", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/createUser.html"));
 });
 
+//serve the file login.html
+app.get("/createAlert", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/createAlert.html"));
+});
+
+
 //serve the file rivers.html
 app.get("/auth/:id", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/auth.html"));
