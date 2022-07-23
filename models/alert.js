@@ -7,6 +7,10 @@ module.exports = function(sequelize, DataTypes) {
           len: [1]
         }
       },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       alertType: {
         type: DataTypes.STRING,
         allowNull: false

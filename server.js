@@ -45,7 +45,7 @@ app.get("/newUser", function (req, res) {
 });
 
 //serve the file login.html
-app.get("/createAlert", function (req, res) {
+app.get("/createAlert/:id", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/createAlert.html"));
 });
 
@@ -158,6 +158,60 @@ app.post("/db/:code", function (req, res) {
         res.json(response[0]);
     });
 });
+
+
+// create alert
+app.post("/db/alert", function (req, res) {
+    db.alert.create(req.body).then(function (response) {
+        res.json(response);
+    });
+});
+
+//delete alert from db
+app.delete("/db/alert/:id", function (req, res) {
+    db.f.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).then(function (response) {
+        res.json(response);
+    });
+});
+
+// update alert
+app.post("/db/alert/:id", function (req, res) {
+
+    let alert = {
+        email: req.body.email,
+        username: req.body.username,
+        alertType: req.body.alertType,
+        alertLimit: req.body.alertLimit,
+        riverId: req.body.riverId
+    }
+    db.userAccount.update({
+        alert},
+        {where: {
+            id: req.params.id
+        }
+    }).then(function (response) {
+        console.log(response);
+        res.json(response[0]);
+    });
+});
+
+//This is for getting alerts
+app.get("/db/alert/:username", function (req, res) {
+    db.follow.findAll({
+        where: {
+            username: req.params.username
+        }
+    }).then(function (response) {
+        res.json(response);
+    });
+
+});
+
+
 
 
 
