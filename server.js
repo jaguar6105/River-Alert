@@ -58,7 +58,7 @@ app.get("/auth/:id", function (req, res) {
 
 //checks for login information
 app.get("/login/:username/:password", function (req, res) {
-
+    console.log("Test");
     db.userAccount.findAll({
         where: {
             username: req.params.username
@@ -186,7 +186,8 @@ app.post("/db/alert/:id", function (req, res) {
         username: req.body.username,
         alertType: req.body.alertType,
         alertLimit: req.body.alertLimit,
-        riverId: req.body.riverId
+        riverId: req.body.riverId,
+        active: req.body.active
     }
     db.userAccount.update({
         alert},

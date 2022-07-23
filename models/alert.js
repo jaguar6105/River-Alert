@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
       riverId: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      active: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
     },
       {freezeTableName: true}
