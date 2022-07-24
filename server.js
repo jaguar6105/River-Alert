@@ -162,7 +162,16 @@ app.post("/db/:code", function (req, res) {
 
 // create alert
 app.post("/db/alert", function (req, res) {
-    db.alert.create(req.body).then(function (response) {
+    let alert = {
+        email: req.body.email,
+        username: req.body.username,
+        alertType: req.body.alertType,
+        alertLimit: req.body.alertLimit,
+        riverId: req.body.riverId,
+        active: req.body.active
+    }
+
+    db.alert.create(alert).then(function (response) {
         res.json(response);
     });
 });
@@ -211,6 +220,19 @@ app.get("/db/alert/:username", function (req, res) {
     });
 
 });
+
+//get email
+app.get("/email/:username", function (req, res) {
+
+    db.userAccount.findAll({
+        where: {
+            username: req.params.username
+        }
+    }).then(function (response) {
+        res.json(response[0].email);
+    });
+});
+
 
 
 
