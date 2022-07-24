@@ -44,8 +44,50 @@ $(document).ready(function () {
 
         const submitClick = (event) => {
                 event.preventDefault();
+
+                let email = $('#email').text();
+                let username = $('#username').text();
+                let alert = getValues();
+                let location = getLocation();
+
+                alert = {
+                        email: email,
+                        username: username,
+                        alertType: alert.type,
+                        alertLimit: alert.limit,
+                        riverId: location,
+                        active: "active"
+                }
+                console.log(alert);
+                $.post("/alert", alert).then(function (res) {                        
+
+                });
         }
 
+
+        const getLocation = () => {
+                let array = window.location.pathname.split("/");
+                return array[2];
+              }
+
+
+              const getValues = () => {
+                let values = {
+                        type: "",
+                        limit: ""
+                };
+
+                if($("#date").is(':checked')) {
+                        values.type="date";
+                        values.limit= $('#calenderdate').val();
+                }
+                else if($("#data").is(':checked')) {
+                        values.type= $('#limit').val();
+                        values.limit= $('#limitValue').val()
+                }
+                console.log(values);
+                return values;
+              }
 
         fillForm();
         form.addEventListener('submit', submitClick);

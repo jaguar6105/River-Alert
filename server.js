@@ -161,17 +161,10 @@ app.post("/db/:code", function (req, res) {
 
 
 // create alert
-app.post("/db/alert", function (req, res) {
-    let alert = {
-        email: req.body.email,
-        username: req.body.username,
-        alertType: req.body.alertType,
-        alertLimit: req.body.alertLimit,
-        riverId: req.body.riverId,
-        active: req.body.active
-    }
+app.post("/alert", function (req, res) {
 
-    db.alert.create(alert).then(function (response) {
+
+    db.alert.create(req.body).then(function (response) {
         res.json(response);
     });
 });
