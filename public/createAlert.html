@@ -22,19 +22,36 @@
         </div>
 
         <div class="container" id="inputContain">
-            
+
             <label for="username"><b>Username</b></label>
             <b id="username"> test</b>
 
             <label for="email"><b>Email</b></label>
             <b id="email">test</b>
             <!-- Message Type ex- Basic Alert or All river Data -->
-            
+            <div>
+                <input type="radio" id="date" name="date" value="date" checked>
+                <label for="date">Date</label>
+            </div>
+
+            <div>
+                <input type="radio" id="data" name="data" value="data">
+                <label for="data">River Data</label>
+            </div>
 
             <!-- Potential limit checks -->
-            <label for="limit"><b>Limit</b></label>
-            <input type="text" placeholder="Enter limit" id="limit" required>
+            <div id="limitContainer">
+                <label for="date">Alert date:</label>
 
+                <input type="date" id="calenderdate" name="date" min="2018-01-01">
+                <script>
+                    date = new Date();
+                    year = date.getFullYear();
+                    month = date.getMonth() + 1;
+                    day = date.getDate();
+                    document.getElementById("calenderdate").min = year + "-" + month + "-" + day;
+                </script>
+            </div>
 
             <button type="submit">Create Alert</button>
         </div>
