@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+
+    <link rel="stylesheet" type="text/css" href="/asset/css/createAlert.css">
+    <link rel="stylesheet" type="text/css" href="/asset/css/login.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <title>River Alert</title>
+</head>
+
+<body>
+    <form id="form">
+        <div class="imgcontainer">
+            <h1>River Alert</h1>
+        </div>
+
+        <div class="container" id="inputContain">
+
+            <label for="username"><b>Username</b></label>
+            <b id="username"> test</b>
+
+            <label for="email"><b>Email</b></label>
+            <b id="email">test</b>
+            <!-- Message Type ex- Basic Alert or All river Data -->
+            <div>
+                <input type="radio" id="date" name="data" value="date" checked>
+                <label for="date">Date</label>
+            </div>
+            <div>
+                <input type="radio" id="data" name="data" value="data">
+                <label for="data">River Data</label>
+            </div>
+
+            <!-- Potential limit checks -->
+            <div id="limitContainer">
+                <div id="dateContainer">
+                    <label for="date">Alert date:</label>
+
+                    <input type="date" id="calenderdate" name="date" min="2018-01-01">
+                    <script>
+                        date = new Date();
+                        year = date.getFullYear();
+                        month = date.getMonth() + 1;
+                        day = date.getDate();
+                        document.getElementById("calenderdate").min = year + "-" + month + "-" + day;
+                    </script>
+                </div>
+                <div id="limitContainer">
+                    <select name="limit" id="limit">
+                    </select>
+
+                    <script>
+                        let optionList = document.getElementById('limit').options;
+                        let options = [
+                            {
+                                text: 'Depth',
+                                value: 'depth',
+                                selected: true
+                            }
+                        ]
+
+                        options.forEach(option =>
+                            optionList.add(
+                                new Option(option.text, option.value, option.selected)
+                            )
+                        );
+                    </script>
+
+                    <input type="text" placeholder="Enter Value" id="limitValue">
+                </div>
+            </div>
+
+            <button type="submit">Create Alert</button>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button type="button" class="cancelbtn" id="cancelbtn" href="/">Cancel</button>
+        </div>
+
+    </form>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/asset/js/createAlert.js"></script>
+
+</body>

@@ -1,5 +1,6 @@
 
 const $noteContent = $(".output");
+const createButton = document.getElementById('alertBut');
 
 
 
@@ -64,5 +65,12 @@ const getLocation = () => {
   console.log(array[2]);
   getRiverData(array[2]);
 }
+
+const createClick = (event) => {
+  let array = window.location.pathname.split("/");
+  location.assign('/createAlert/' + array[2]);
+}
+
+createButton.addEventListener('click', createClick);
 
 getLocation();
