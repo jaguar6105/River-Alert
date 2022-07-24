@@ -43,21 +43,41 @@
             <!-- Potential limit checks -->
             <div id="limitContainer">
                 <div id="dateContainer">
-                <label for="date">Alert date:</label>
+                    <label for="date">Alert date:</label>
 
-                <input type="date" id="calenderdate" name="date" min="2018-01-01">
-                <script>
-                    date = new Date();
-                    year = date.getFullYear();
-                    month = date.getMonth() + 1;
-                    day = date.getDate();
-                    document.getElementById("calenderdate").min = year + "-" + month + "-" + day;
-                </script>
+                    <input type="date" id="calenderdate" name="date" min="2018-01-01">
+                    <script>
+                        date = new Date();
+                        year = date.getFullYear();
+                        month = date.getMonth() + 1;
+                        day = date.getDate();
+                        document.getElementById("calenderdate").min = year + "-" + month + "-" + day;
+                    </script>
+                </div>
+                <div id="limitContainer" class="hidden ">
+                    <select name="limit" id="limit">
+                    </select>
+
+                    <script>
+                        let optionList = document.getElementById('limit').options;
+                        let options = [
+                            {
+                                text: 'Depth',
+                                value: 'depth',
+                                selected: true
+                            }
+                        ]
+
+                        options.forEach(option =>
+                            optionList.add(
+                                new Option(option.text, option.value, option.selected)
+                            )
+                        );
+                    </script>
+
+                    <input type="text" placeholder="Enter Value" id="limitValue">
+                </div>
             </div>
-            <div id="limitContainer" class="hidden">
-                    test
-            </div>
-        </div>
 
             <button type="submit">Create Alert</button>
         </div>
