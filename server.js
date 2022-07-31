@@ -3,7 +3,11 @@
 const { response } = require("express");
 var express = require("express");
 var path = require("path");
+const superagent = require('superagent');
+
 //const sql = require("mysql");
+
+
 
 // Sets up the Express App
 // =============================================================
@@ -142,6 +146,7 @@ app.post("/db/user", function (req, res) {
         email: req.body.email
     }
     db.userAccount.create(user).then(function (response) {
+        sendVerificationEmail(user.confirmationCode, user.email, user.username);
         res.json(response);
     });
 });
@@ -227,7 +232,13 @@ app.get("/email/:username", function (req, res) {
 });
 
 
-
+const sendVerificationEmail = (id, email, username) => {
+    let idurl = "http://localhost:8050/auth/" + id;
+    let body = "This is an automated message from River Alert Web Application.  This is a link to authorize of the account " + username + ".  Click this link to authorize the account " + idurl;
+    let key = "EB9412E9C345FEA9F88B391F7866A810FE545BDC444A7967D8A067AFC99F5476FF234E26A779ACF808EEF2024910974E";
+    let url = "https://api.elasticemail.com/v2/email/send?apikey=" + key + "&from=riveralertwebapp@gmail.com&to=" +email + "&body=" + body;
+    superagent.post(url).then(console.log).catch(console.error)
+}
 
 
 
