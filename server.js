@@ -59,6 +59,12 @@ app.get("/auth/:id", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/auth.html"));
 });
 
+//serve the file alerts.html
+app.get("/alert", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/alerts.html"));
+});
+
+
 
 //checks for login information
 app.get("/login/:username/:password", function (req, res) {
@@ -176,7 +182,7 @@ app.post("/alert", function (req, res) {
 
 //delete alert from db
 app.delete("/db/alert/:id", function (req, res) {
-    db.f.destroy({
+    db.alert.destroy({
         where: {
             id: req.params.id
         }
@@ -209,11 +215,12 @@ app.post("/db/alert/:id", function (req, res) {
 
 //This is for getting alerts
 app.get("/db/alert/:username", function (req, res) {
-    db.follow.findAll({
+    db.alert.findAll({
         where: {
             username: req.params.username
         }
     }).then(function (response) {
+
         res.json(response);
     });
 
@@ -240,6 +247,14 @@ const sendVerificationEmail = (id, email, username) => {
     superagent.post(url).then(console.log).catch(console.error)
 }
 
+const sendAlert = (email, data) => {
+
+    let body = "This is an automated message from River Alert Web Application.  This is a link to authorize of the account.  Click this link to authorize the account ";
+    let key = "EB9412E9C345FEA9F88B391F7866A810FE545BDC444A7967D8A067AFC99F5476FF234E26A779ACF808EEF2024910974E";
+    let url = "https://api.elasticemail.com/v2/email/send?apikey=" + key + "&from=riveralertwebapp@gmail.com&to=" +email + "&body=" + body;
+    superagent.post(url).then(console.log).catch(console.error)
+
+}
 
 
 db.sequelize.sync({ force: false }).then(function () {

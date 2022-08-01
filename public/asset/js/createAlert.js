@@ -48,19 +48,19 @@ $(document).ready(function () {
                 let email = $('#email').text();
                 let username = $('#username').text();
                 let alert = getValues();
-                let location = getLocation();
+                let locations = getLocation();
 
                 alert = {
                         email: email,
                         username: username,
                         alertType: alert.type,
                         alertLimit: alert.limit,
-                        riverId: location,
+                        riverId: locations,
                         active: "active"
                 }
                 console.log(alert);
                 $.post("/alert", alert).then(function (res) {                        
-
+                        location.assign('/alert');
                 });
         }
 
