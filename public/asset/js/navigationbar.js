@@ -38,6 +38,9 @@ $(document).ready(function () {
         let logout = '<a class="logintext" id="logoutbutton" href="#" style="width: 18rem;">logout</a>';
         $("#login_container").append(card);
         $("#login_container").append(logout);
+
+        let alert = '<a class="logintext" id="alertbutton" href="/alert" style="width: 18rem;">Alerts</a>';
+        $("#alert_container").append(alert);
         
         const logoutButton = document.getElementById('logoutbutton');
 
@@ -45,6 +48,7 @@ $(document).ready(function () {
             document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             console.log("Cookie Removed");
             $("#login_container").empty();
+            $("#alert_container").empty();
             let login = '<a href="/login" }>login</a>';
             $("#holder").empty();
             $("#login_container").append(login);
