@@ -26,6 +26,8 @@ var db = require("./models");
 const river = ["test"];
 const ids = [];
 
+const timeInterval = 3600000;
+
 
 
 // This is the home page
@@ -249,12 +251,58 @@ const sendVerificationEmail = (id, email, username) => {
 
 const sendAlert = (email, data) => {
 
-    let body = "This is an automated message from River Alert Web Application.  This is a link to authorize of the account.  Click this link to authorize the account ";
+    let body = "This is a test of web-alerts set interval.  An alert linked with this email just went off";
     let key = "EB9412E9C345FEA9F88B391F7866A810FE545BDC444A7967D8A067AFC99F5476FF234E26A779ACF808EEF2024910974E";
     let url = "https://api.elasticemail.com/v2/email/send?apikey=" + key + "&from=riveralertwebapp@gmail.com&to=" +email + "&body=" + body;
     superagent.post(url).then(console.log).catch(console.error)
 
 }
+
+const testAlert = () => {
+
+    db.alert.findAll({
+        where: {
+            active: "active"
+        }
+    }).then(function (response) {
+
+        for(let i = 0; i<response.length; i++) {
+            console.log(response[i].dataValues);
+            if(response[i].dataValues.alertType == "date") {
+                checkDate(response[i].dataValues);
+            }
+            else {
+
+            }
+        }
+    });
+
+    //sendAlert("gilljoseph603@gmail.com", "hi");
+    console.log("Test");
+}
+
+
+const checkDate = (alert) => {
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    let year = date_ob.getFullYear();
+    let currentDate = year + "-" + month + "-" + date;
+    //console.log(currentDate);
+    if(alert.alertLimit == currentDate) {
+        //sendAlert(alert.email, alert);
+        db.alert.update({
+            active: "Inactive"},
+            {where: {
+                id: alert.id
+            }
+        }).then(function (response) {
+            console.log(response);
+        });
+    }
+}
+
+setInterval(testAlert, timeInterval);
 
 
 db.sequelize.sync({ force: false }).then(function () {
