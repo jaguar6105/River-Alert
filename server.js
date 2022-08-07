@@ -2,6 +2,7 @@
 // =============================================================
 const { response } = require("express");
 var express = require("express");
+const { request } = require("http");
 var path = require("path");
 const superagent = require('superagent');
 
@@ -26,6 +27,8 @@ var db = require("./models");
 const river = ["test"];
 const ids = [];
 
+//12 hour interval
+//change to other intervals
 const timeInterval = 3600000;
 
 
@@ -254,7 +257,7 @@ const sendAlert = (email, data) => {
     let body = "This is a test of web-alerts set interval.  An alert linked with this email just went off";
     let key = "EB9412E9C345FEA9F88B391F7866A810FE545BDC444A7967D8A067AFC99F5476FF234E26A779ACF808EEF2024910974E";
     let url = "https://api.elasticemail.com/v2/email/send?apikey=" + key + "&from=riveralertwebapp@gmail.com&to=" +email + "&body=" + body;
-    superagent.post(url).then(console.log).catch(console.error)
+    superagent.post(url).then(console.log).catch(console.error);
 
 }
 
@@ -267,18 +270,50 @@ const testAlert = () => {
     }).then(function (response) {
 
         for(let i = 0; i<response.length; i++) {
-            console.log(response[i].dataValues);
+            //console.log(response[i].dataValues);
             if(response[i].dataValues.alertType == "date") {
                 checkDate(response[i].dataValues);
             }
             else {
-
+                checkValue(response[i].dataValues);
             }
         }
     });
 
     //sendAlert("gilljoseph603@gmail.com", "hi");
     console.log("Test");
+}
+
+const checkValue = (alert) => { 
+
+    let client = "qIoVTRHTK046FZUZWzzWE";
+    let secret = "2Vei2BNzwGMltl4KjQ8RrvgwKSdmLofRQQgJwC42";
+
+    let search = alert.riverId;
+
+    let url = "https://api.aerisapi.com/rivers/" + search + "?format=json&radius=25mi&limit=10&client_id=" + client + "&client_secret=" + secret;
+
+    superagent.get(url).accept('json')
+    .then((response) => {
+        let text = JSON.parse(response.text);
+        //console.log(text.response)
+    
+        let limit = text.response.ob.heightFT;
+
+        console.log(limit);
+        if(alert.alertLimit >= limit) {
+            sendAlert(alert.email, alert);
+            db.alert.update({
+                active: "Inactive"},
+                {where: {
+                    id: alert.id
+                }
+            }).then(function (response) {
+                console.log(response);
+            });
+        }
+    
+    }).catch(console.error)
 }
 
 
@@ -290,7 +325,7 @@ const checkDate = (alert) => {
     let currentDate = year + "-" + month + "-" + date;
     //console.log(currentDate);
     if(alert.alertLimit == currentDate) {
-        //sendAlert(alert.email, alert);
+        sendAlert(alert.email, alert);
         db.alert.update({
             active: "Inactive"},
             {where: {
