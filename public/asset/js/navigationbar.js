@@ -39,7 +39,7 @@ $(document).ready(function () {
         $("#login_container").append(card);
         $("#login_container").append(logout);
 
-        let alert = '<a class="logintext" id="alertbutton" href="/alert" style="width: 18rem;">Alerts</a>';
+        let alert = '<a class="logintext nav-link" id="alertbutton" href="/alert" style="width: 18rem;">Alerts</a>';
         $("#alert_container").append(alert);
         
         const logoutButton = document.getElementById('logoutbutton');
