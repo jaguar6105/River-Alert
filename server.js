@@ -371,7 +371,7 @@ const checkDate = (alert) => {
     }
 }
 
-//setInterval(testAlert, timeInterval);
+setInterval(testAlert, timeInterval);
 
 
 db.sequelize.sync({ force: false }).then(function () {
