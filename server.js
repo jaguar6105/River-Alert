@@ -185,6 +185,29 @@ app.post("/alert", function (req, res) {
     });
 });
 
+
+// record measure in database
+app.post("/measure", function (req, res) {
+
+
+    db.measure.create(req.body).then(function (response) {
+        res.json(response);
+    });
+});
+
+//This is for getting follows
+app.get("/db/measure/:id", function (req, res) {
+    //   console.log("Test");
+    db.measure.findAll({
+        where: {
+            riverValue: req.params.id
+        }
+    }).then(function (response) {
+        res.json(response);
+    });
+
+});
+
 //delete alert from db
 app.delete("/db/alert/:id", function (req, res) {
     db.alert.destroy({
@@ -337,7 +360,7 @@ const checkDate = (alert) => {
     }
 }
 
-setInterval(testAlert, timeInterval);
+//setInterval(testAlert, timeInterval);
 
 
 db.sequelize.sync({ force: false }).then(function () {

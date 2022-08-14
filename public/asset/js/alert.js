@@ -61,7 +61,7 @@ const getCookie = (cname) => {
       for (let k = 0; k < dBut.length; k++) {
         //console.log(fBut[k].dataset.follow);
         dBut[k].addEventListener("click", deleteClick);
-        eBut[k].addEventListener("click", editClick);
+    //    eBut[k].addEventListener("click", editClick);
       }
     }
     else {
@@ -85,9 +85,9 @@ const getCookie = (cname) => {
   }
 
   //edit an alert
-  const editClick = (evt) => {
+ /* const editClick = (evt) => {
     //let userCookie = getCookie('username');
-  }
+  }*/
 
   getAlerts();
 
