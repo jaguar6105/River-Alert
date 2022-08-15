@@ -185,6 +185,29 @@ app.post("/alert", function (req, res) {
     });
 });
 
+
+// record measure in database
+app.post("/measure", function (req, res) {
+
+
+    db.measure.create(req.body).then(function (response) {
+        res.json(response);
+    });
+});
+
+//This is for getting follows
+app.get("/db/measure/:id", function (req, res) {
+    //   console.log("Test");
+    db.measure.findAll({
+        where: {
+            riverValue: req.params.id
+        }
+    }).then(function (response) {
+        res.json(response);
+    });
+
+});
+
 //delete alert from db
 app.delete("/db/alert/:id", function (req, res) {
     db.alert.destroy({
@@ -297,7 +320,7 @@ const checkValue = (alert) => {
     .then((response) => {
         let text = JSON.parse(response.text);
         //console.log(text.response)
-    
+        saveData(text.response.ob.heightFT, text.response.id);
         let limit = text.response.ob.heightFT;
 
         console.log(limit);
@@ -314,6 +337,17 @@ const checkValue = (alert) => {
         }
     
     }).catch(console.error)
+}
+
+const saveData = (id, value) => {
+    let river = {
+        riverValue: value,
+        riverId: id
+      }
+
+    db.measure.create(river).then(function (response) {
+        res.json(response);
+    });
 }
 
 

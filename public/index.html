@@ -16,31 +16,43 @@
 </head>
 
 <body>
-  <header>
-    <ul className="nav nav-tabs">
-      <li className="nav-item">
-        <a href="/" }>
+  <header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" href="/" }>
           Home
         </a>
       </li>
-      <li className="nav-item" id="alert_container">
+      <li class="nav-item" id="alert_container">
 
       </li>
-      <li className="nav-item" id="login_container">
-        <a href="/login" }>
-          login
-        </a>
-      </li>
-      <li>
+      <li class="nav-item">
         <input type="text" id="rivername" name="rivername"></input>
         <select name="State" id="state">
         </select>
         <button type="submit" value="Submit" id="search-button">Search</button>
       </li>
+
+      <li class="nav-item" id="login_container">
+        <div class="nav-link">
+        <a href="/login" }>
+          login
+        </a>
+      </div>
+      </li>
     </ul>
   </header>
-  <div id="holder">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+      </div>
+      <div id="holder" class="col">
+      </div>
+      <div class="col">
+      </div>
+    </div>
   </div>
+
 
 
 

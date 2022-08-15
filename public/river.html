@@ -7,26 +7,45 @@
     <meta name="theme-color" content="#000000" />
 
     <title>River Alert</title>
+
+
+    <link rel="stylesheet" type="text/css" href="/asset/css/createAlert.css">
+    <!-- Import TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+  <!-- Import tfjs-vis -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script>
 </head>
 
 <body>
-    <header>
-        <ul className="nav nav-tabs">
-            <li className="nav-item">
-              <a href="/"}>
-                Home
-              </a>
-            </li>
-          </ul>
-    </header>
+  <header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link" href="/" }>
+          Home
+        </a>
+      </li>
+      <li class="nav-item" id="alert_container">
+
+      </li>
+
+      <li class="nav-item" id="login_container">
+        <div class="nav-link">
+        <a href="/login" }>
+          login
+        </a>
+      </div>
+      </li>
+    </ul>
+  </header>
     <div>
         <h1 className="text-center" id="river-name">River number placeholder</h1>
     </div>
     <div>
-      <button id="alertBut" class="button">Create Alert</button>
+      <button id="alertBut" class="button hidden">Create Alert</button>
     </div>
     <div class="output"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/asset/js/river.js"></script>
+    <script src="/asset/js/navigationbar.js"></script>
 </body>
